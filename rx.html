@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu receta — med-scheduler</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__top">
+        <div class="header__logo">
+          <span data-i18n="appName">med</span><span class="header__logo--accent" data-i18n="appNameAccent">-scheduler</span>
+        </div>
+        <div class="header__actions">
+          <button id="theme-toggle" class="btn-theme" type="button" title="Dark mode">
+            <svg class="theme-icon theme-icon--light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            <svg class="theme-icon theme-icon--dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <button id="lang-toggle" class="btn-lang" type="button"></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="loading" class="loading-state">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Content -->
+    <div id="content" style="display: none;">
+      <div class="rx-header">
+        <h1 class="rx-header__title" data-i18n="rxTitle">Receta medica</h1>
+        <p class="rx-header__patient"><span data-i18n="rxFor">Para:</span> <strong id="patient-name"></strong></p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-events">0</div>
+          <div class="stat-card__label" data-i18n="statEvents">Eventos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-reminders">0</div>
+          <div class="stat-card__label" data-i18n="statReminders">Recordatorios</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-days">0</div>
+          <div class="stat-card__label" data-i18n="statDays">Dias</div>
+        </div>
+      </div>
+
+      <div id="medications-list"></div>
+
+      <div style="margin-top: 24px;">
+        <button id="download-btn" class="btn btn--primary btn--full btn--lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="rxDownload">Agregar recordatorios al calendario</span>
+        </button>
+      </div>
+
+      <div id="rx-success" class="alert alert--success" style="margin-top: 16px;"></div>
+
+      <p class="rx-hint" data-i18n="rxHint">Al abrir el archivo .ics, los recordatorios se agregaran a tu calendario con alarmas 5 minutos antes de cada dosis.</p>
+    </div>
+
+    <!-- Error -->
+    <div id="error-page" class="error-page" style="display: none;">
+      <div class="error-page__code">:(</div>
+      <p class="error-page__message" data-i18n="rxError">No se pudo cargar la receta. El link puede estar incompleto.</p>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/ics.js"></script>
+  <script src="js/encoder.js"></script>
+  <script src="js/patient.js"></script>
+</body>
+</html>
