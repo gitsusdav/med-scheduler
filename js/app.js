@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyBtn = document.getElementById('copy-link');
   const langBtn = document.getElementById('lang-toggle');
   const themeBtn = document.getElementById('theme-toggle');
+  const globalStartDate = document.getElementById('global-start-date');
   let medCount = 0;
   let rxURL = '';
 
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="form-row form-row--1">
         <div class="form-group">
           <label class="form-label" data-i18n="startDate">${t('startDate')}</label>
-          <input type="date" class="form-input med-start-date" value="${getTodayStr()}" required>
+          <input type="date" class="form-input med-start-date" value="${globalStartDate.value || getTodayStr()}" required>
         </div>
       </div>
       <div class="form-group">
@@ -72,6 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     medsContainer.appendChild(card);
+
+    // Sync start date from global field after DOM insertion
+    if (globalStartDate.value) {
+      card.querySelector('.med-start-date').value = globalStartDate.value;
+    }
 
     const removeBtn = card.querySelector('.med-card__remove');
     if (removeBtn) {
@@ -171,6 +177,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     container.innerHTML = qr.createSvgTag({ scalable: true });
   }
+
+  // --- Global start date ---
+  globalStartDate.value = getTodayStr();
+  globalStartDate.addEventListener('change', () => {
+    const val = globalStartDate.value;
+    if (!val) return;
+    medsContainer.querySelectorAll('.med-start-date').forEach((input) => {
+      input.value = val;
+    });
+    updateAllSchedules();
+  });
 
   // --- Init ---
   addMedication();
