@@ -1,12 +1,4 @@
-```
-                     _                _              _       _
-  _ __ ___   ___  __| |  ___  ___ | |__   ___  __| |_   _| | ___ _ __
- | '_ ` _ \ / _ \/ _` | / __|/ __|| '_ \ / _ \/ _` | | | | |/ _ \ '__|
- | | | | | |  __/ (_| | \__ \ (__ | | | |  __/ (_| | |_| | |  __/ |
- |_| |_| |_|\___|\__,_| |___/\___||_| |_|\___|\__,_|\__,_|_|\___|_|
-```
 
-![HTML](https://img.shields.io/badge/HTML-CSS-JS-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 **Doctors create prescriptions. Patients get automatic calendar reminders. No server required.**
@@ -15,18 +7,17 @@
 
 ---
 
-## The Problem / El Problema
+## The Problem 
 
 When a doctor prescribes medications with complex schedules (e.g., Amoxicillin every 8 hours for 7 days + Ibuprofen every 6 hours for 5 days), the patient has to manually create every reminder. That's tedious and error-prone.
 
-Cuando un doctor receta medicamentos con horarios complejos, el paciente tiene que configurar manualmente cada recordatorio. Es tedioso y propenso a errores.
 
-## The Solution / La Solucion
+## The Solution 
 
-1. Doctor fills the prescription form / Doctor llena el formulario
-2. Downloads an `.ics` file with all reminders / Descarga un archivo `.ics` con todos los recordatorios
-3. Sends it to the patient via WhatsApp, email, etc. / Lo envia al paciente por WhatsApp, email, etc.
-4. Patient opens the file and all reminders are added to their calendar / El paciente abre el archivo y los recordatorios se agregan a su calendario
+1. Doctor fills the prescription form 
+2. Downloads an `.ics` file with all reminders
+3. Sends it to the patient via WhatsApp, email, etc. 
+4. Patient opens the file and all reminders are added to their calendar 
 
 Works on iPhone, Android, Google Calendar, Outlook, and any calendar app that supports `.ics` files.
 
