@@ -30,16 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
   contentEl.style.display = 'block';
   updateUI();
 
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
   function triggerDownload(content, fileName, successKey) {
     const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+
+    if (isIOS) {
+      // iOS Safari no soporta el atributo download en blob: URLs.
+      // Abrir en nueva pestaña permite que Safari reconozca el MIME type
+      // text/calendar y ofrezca abrirlo en Calendario o Recordatorios.
+      window.open(url, '_blank');
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    } else {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
 
     const successEl = document.getElementById('rx-success');
     successEl.textContent = t(successKey);
@@ -51,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     triggerDownload(
       generateICS(rxData.patientName, rxData.medications),
       `medicamentos-${baseName}.ics`,
-      'rxSuccessMsg'
+      isIOS ? 'rxSuccessMsgIOS' : 'rxSuccessMsg'
     );
   });
 
@@ -60,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     triggerDownload(
       generateICSReminders(rxData.patientName, rxData.medications),
       `recordatorios-${baseName}.ics`,
-      'rxSuccessReminderMsg'
+      isIOS ? 'rxSuccessReminderMsgIOS' : 'rxSuccessReminderMsg'
     );
   });
 
