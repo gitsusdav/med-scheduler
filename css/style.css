@@ -503,6 +503,55 @@ body {
   color: white;
 }
 
+/* === Download Actions (patient view) === */
+.download-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.download-reminder-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn--reminder {
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+}
+
+.btn--reminder:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--card-bg);
+}
+
+.btn--reminder:active {
+  background: var(--bg);
+}
+
+.apple-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+}
+
+.apple-notice svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
 /* === Patient View === */
 .rx-header {
   text-align: center;

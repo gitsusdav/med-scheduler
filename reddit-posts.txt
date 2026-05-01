@@ -1,0 +1,158 @@
+================================================================================
+POST VENEZUELA (ESPAÑOL)
+================================================================================
+
+Título: Hice una herramienta web para que doctores creen recordatorios de medicamentos automáticos para sus pacientes
+
+---
+
+Soy desarrollador venezolano y hice este proyecto: med-scheduler. Es una app web donde el doctor llena un formulario con los medicamentos del paciente (nombre, dosis, frecuencia, duración) y genera un link que puede compartir por WhatsApp, email o QR.
+
+El paciente abre el link, descarga un archivo .ics y se le agregan todos los recordatorios automáticamente a su calendario (iPhone, Android, Google Calendar, Outlook).
+
+- 100% gratis y sin registro
+- No se guarda ningún dato en ningún servidor — todo es client-side
+- Funciona en español e inglés
+- No necesita instalar ninguna app
+
+Lo hice porque he visto lo difícil que es para muchos pacientes llevar el control de horarios cuando les recetan varios medicamentos a la vez.
+
+Repo: https://github.com/gitsusdav/med-scheduler
+
+Cualquier feedback es bienvenido.
+
+
+================================================================================
+POST VENEZUELA (ENGLISH)
+================================================================================
+
+Title: I built a web tool for doctors to create automatic medication reminders for their patients
+
+---
+
+I'm a Venezuelan developer and I built this project: med-scheduler. It's a web app where the doctor fills a form with the patient's medications (name, dose, frequency, duration) and generates a link that can be shared via WhatsApp, email, or QR.
+
+The patient opens the link, downloads an .ics file, and all reminders are automatically added to their calendar (iPhone, Android, Google Calendar, Outlook).
+
+- 100% free, no sign-up required
+- No data is stored on any server — everything is client-side
+- Works in Spanish and English
+- No app installation needed
+
+I built it because I've seen how hard it is for many patients to keep track of schedules when they're prescribed multiple medications at once.
+
+Repo: https://github.com/gitsusdav/med-scheduler
+
+Any feedback is welcome.
+
+
+================================================================================
+POST PROGRAMADORES (ESPAÑOL)
+================================================================================
+
+Título: Hice una herramienta sin backend para que doctores generen recordatorios automáticos de medicamentos
+
+---
+
+med-scheduler permite que un doctor llene un formulario con los medicamentos del paciente (nombre, dosis, frecuencia, duración) y genere un link compartible por WhatsApp, email, QR o Telegram.
+
+El paciente abre el link y descarga un archivo .ics que agrega todos los recordatorios a su calendario (iOS, Android, Google Calendar, Outlook) con alarmas 5 minutos antes de cada dosis.
+
+Tech:
+- HTML/CSS/JS puro — sin frameworks, sin backend
+- Los datos de la receta se codifican en el hash de la URL (sin servidor, sin base de datos)
+- Bilingüe (español/inglés)
+- Diseño responsive mobile-first
+- Generación de código QR para compartir fácil
+
+Por qué lo hice: A los pacientes frecuentemente les recetan varios medicamentos con horarios complejos (ej: Amoxicilina cada 8h + Ibuprofeno cada 6h). Configurar todos esos recordatorios manualmente es tedioso y propenso a errores.
+
+Repo: https://github.com/gitsusdav/med-scheduler
+
+Agradezco cualquier feedback sobre el enfoque y la experiencia de usuario.
+
+
+================================================================================
+POST PROGRAMADORES (ENGLISH)
+================================================================================
+
+Title: I built a zero-backend tool for doctors to generate automatic medication reminders for patients
+
+---
+
+med-scheduler lets doctors fill a prescription form (medication name, dose, frequency, duration) and generates a shareable link via WhatsApp, email, QR, or Telegram.
+
+The patient opens the link and downloads an .ics file that adds all reminders to their calendar app (iOS, Android, Google Calendar, Outlook) with 5-minute alarms before each dose.
+
+Tech:
+- Pure HTML/CSS/JS — no frameworks, no backend
+- Prescription data is encoded in the URL hash (no server, no database)
+- Bilingual (Spanish/English)
+- Mobile-first responsive design
+- QR code generation for easy sharing
+
+Why I built it: Patients often get prescribed multiple medications with complex schedules (e.g., Amoxicillin every 8h + Ibuprofen every 6h). Setting up all those reminders manually is tedious and error-prone.
+
+Repo: https://github.com/gitsusdav/med-scheduler
+
+Would love feedback on the approach and UX.
+
+
+================================================================================
+POST PERSONAL MÉDICO (ESPAÑOL)
+================================================================================
+
+Título: Herramienta gratuita para enviar recordatorios de medicamentos automáticos a tus pacientes
+
+---
+
+Colegas, quiero compartirles una herramienta que desarrollé pensando en mejorar la adherencia al tratamiento de nuestros pacientes: med-scheduler.
+
+¿Cómo funciona?
+
+1. Llenas un formulario rápido con los datos del paciente y sus medicamentos (nombre, dosis, frecuencia, duración)
+2. Se genera un link que puedes enviar por WhatsApp, correo o mostrar como QR en consulta
+3. El paciente abre el link desde su celular y descarga un archivo que le agrega automáticamente TODOS los recordatorios a su calendario, con alarmas 5 minutos antes de cada dosis
+
+Ejemplo: si recetas Amoxicilina 500mg cada 8h por 7 días + Ibuprofeno 400mg cada 6h por 5 días, el paciente recibe todos los recordatorios configurados automáticamente en vez de tener que programarlos uno por uno.
+
+- Funciona con cualquier calendario (iPhone, Android, Google Calendar, Outlook)
+- No necesita instalar ninguna app
+- 100% gratuito y sin registro
+- Los datos del paciente no se guardan en ningún servidor — total privacidad
+
+Sé que uno de los mayores retos es que los pacientes cumplan los horarios de sus medicamentos, sobre todo cuando son varios. Esta herramienta busca eliminar esa barrera.
+
+Link: https://github.com/gitsusdav/med-scheduler
+
+Si la prueban, me encantaría saber qué les parece y qué le mejorarían.
+
+
+================================================================================
+POST PERSONAL MÉDICO (ENGLISH)
+================================================================================
+
+Title: Free tool to send automatic medication reminders to your patients
+
+---
+
+Colleagues, I want to share a tool I developed to help improve treatment adherence in our patients: med-scheduler.
+
+How does it work?
+
+1. You fill a quick form with the patient's data and their medications (name, dose, frequency, duration)
+2. It generates a link you can send via WhatsApp, email, or show as a QR code during the appointment
+3. The patient opens the link on their phone and downloads a file that automatically adds ALL reminders to their calendar, with alarms 5 minutes before each dose
+
+Example: if you prescribe Amoxicillin 500mg every 8h for 7 days + Ibuprofen 400mg every 6h for 5 days, the patient gets all reminders set up automatically instead of having to program them one by one.
+
+- Works with any calendar app (iPhone, Android, Google Calendar, Outlook)
+- No app installation needed
+- 100% free, no sign-up required
+- Patient data is never stored on any server — complete privacy
+
+We all know one of the biggest challenges is getting patients to stick to their medication schedules, especially with multiple prescriptions. This tool aims to remove that barrier.
+
+Link: https://github.com/gitsusdav/med-scheduler
+
+If you try it, I'd love to hear what you think and what you'd improve.

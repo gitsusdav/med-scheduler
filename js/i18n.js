@@ -51,9 +51,12 @@ const translations = {
     statEvents: 'Eventos',
     statReminders: 'Recordatorios',
     statDays: 'Dias',
-    rxDownload: 'Agregar recordatorios al calendario',
-    rxHint: 'Al abrir el archivo .ics, los recordatorios se agregaran a tu calendario con alarmas 5 minutos antes de cada dosis.',
-    rxSuccessMsg: 'Archivo descargado. Abrelo para agregar los recordatorios a tu calendario.',
+    rxDownload: 'Agregar al Calendario',
+    rxDownloadReminder: 'Agregar a Recordatorios',
+    rxAppleNotice: 'iPhone · iPad · Mac · Outlook',
+    rxHint: 'Cada recordatorio incluye una alarma 5 minutos antes de cada dosis.',
+    rxSuccessMsg: 'Archivo descargado. Abrelo para agregar los eventos a tu calendario.',
+    rxSuccessReminderMsg: 'Archivo descargado. Abrelo en tu iPhone, iPad o Mac para agregar los recordatorios.',
     rxError: 'No se pudo cargar la receta. El link puede estar incompleto.',
 
     // Footer
@@ -112,9 +115,12 @@ const translations = {
     statEvents: 'Events',
     statReminders: 'Reminders',
     statDays: 'Days',
-    rxDownload: 'Add reminders to calendar',
-    rxHint: 'When you open the .ics file, reminders will be added to your calendar with alarms 5 minutes before each dose.',
-    rxSuccessMsg: 'File downloaded. Open it to add the reminders to your calendar.',
+    rxDownload: 'Add to Calendar',
+    rxDownloadReminder: 'Add to Reminders',
+    rxAppleNotice: 'iPhone · iPad · Mac · Outlook',
+    rxHint: 'Each reminder includes an alarm 5 minutes before each dose.',
+    rxSuccessMsg: 'File downloaded. Open it to add the events to your calendar.',
+    rxSuccessReminderMsg: 'File downloaded. Open it on your iPhone, iPad or Mac to add the reminders.',
     rxError: 'Could not load the prescription. The link may be incomplete.',
 
     // Footer

@@ -89,6 +89,69 @@ function formatICSDate(date) {
   );
 }
 
+function generateICSReminders(patientName, medications) {
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//med-scheduler//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+  ];
+
+  const now = new Date();
+  const dtstamp =
+    now.getUTCFullYear().toString() +
+    String(now.getUTCMonth() + 1).padStart(2, '0') +
+    String(now.getUTCDate()).padStart(2, '0') +
+    'T' +
+    String(now.getUTCHours()).padStart(2, '0') +
+    String(now.getUTCMinutes()).padStart(2, '0') +
+    String(now.getUTCSeconds()).padStart(2, '0') +
+    'Z';
+
+  for (const med of medications) {
+    const [startH, startM] = med.startTime.split(':').map(Number);
+
+    const firstDose = new Date(med.startDate + 'T00:00:00');
+    firstDose.setHours(startH, startM, 0, 0);
+
+    const endOfTreatment = new Date(firstDose);
+    endOfTreatment.setDate(endOfTreatment.getDate() + med.durationDays);
+
+    const summary = `${med.name} - ${med.dose}`;
+    let description = `${currentLang === 'es' ? 'Dosis' : 'Dose'}: ${med.dose}`;
+    if (med.notes) {
+      description += `\n${currentLang === 'es' ? 'Indicaciones' : 'Instructions'}: ${med.notes}`;
+    }
+    description += `\n\n${currentLang === 'es' ? 'Paciente' : 'Patient'}: ${patientName}`;
+    description += '\n\nGenerado con med-scheduler';
+
+    const current = new Date(firstDose);
+    while (current < endOfTreatment) {
+      lines.push(
+        'BEGIN:VTODO',
+        `DTSTAMP:${dtstamp}`,
+        foldLine(`UID:${generateUID()}`),
+        `DUE:${formatICSDate(current)}`,
+        'STATUS:NEEDS-ACTION',
+        foldLine(`SUMMARY:${escapeICS(summary)}`),
+        foldLine(`DESCRIPTION:${escapeICS(description)}`),
+        'BEGIN:VALARM',
+        'TRIGGER:-PT5M',
+        'ACTION:DISPLAY',
+        foldLine(`DESCRIPTION:${escapeICS(summary)}`),
+        'END:VALARM',
+        'END:VTODO'
+      );
+
+      current.setHours(current.getHours() + med.frequencyHours);
+    }
+  }
+
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+
 function generateICS(patientName, medications) {
   const lines = [
     'BEGIN:VCALENDAR',

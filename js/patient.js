@@ -30,11 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
   contentEl.style.display = 'block';
   updateUI();
 
-  // Download button
-  document.getElementById('download-btn').addEventListener('click', () => {
-    const icsContent = generateICS(rxData.patientName, rxData.medications);
-    const fileName = `medicamentos-${rxData.patientName.replace(/\s+/g, '-').toLowerCase()}.ics`;
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  function triggerDownload(content, fileName, successKey) {
+    const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -45,8 +42,26 @@ document.addEventListener('DOMContentLoaded', () => {
     URL.revokeObjectURL(url);
 
     const successEl = document.getElementById('rx-success');
-    successEl.textContent = t('rxSuccessMsg');
+    successEl.textContent = t(successKey);
     successEl.classList.add('visible');
+  }
+
+  document.getElementById('download-btn').addEventListener('click', () => {
+    const baseName = rxData.patientName.replace(/\s+/g, '-').toLowerCase();
+    triggerDownload(
+      generateICS(rxData.patientName, rxData.medications),
+      `medicamentos-${baseName}.ics`,
+      'rxSuccessMsg'
+    );
+  });
+
+  document.getElementById('download-reminder-btn').addEventListener('click', () => {
+    const baseName = rxData.patientName.replace(/\s+/g, '-').toLowerCase();
+    triggerDownload(
+      generateICSReminders(rxData.patientName, rxData.medications),
+      `recordatorios-${baseName}.ics`,
+      'rxSuccessReminderMsg'
+    );
   });
 
   function renderPrescription(rx) {
