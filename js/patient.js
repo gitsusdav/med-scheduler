@@ -3,20 +3,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const contentEl = document.getElementById('content');
   const errorEl = document.getElementById('error-page');
   const langBtn = document.getElementById('lang-toggle');
-
   const themeBtn = document.getElementById('theme-toggle');
 
-  langBtn.addEventListener('click', () => {
-    toggleLang();
-    // Re-render if we have data
-    if (rxData) renderPrescription(rxData);
-  });
+  // iOS detection (also catches iPads in desktop mode where UA reports as Mac).
+  // Critical: on iOS Safari we must use a real anchor with data: URI and let
+  // the user tap it directly. Programmatic .click() and the `download` attribute
+  // both trigger "Safari cannot download this file".
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 
   themeBtn.addEventListener('click', toggleTheme);
 
-  // Decode prescription from URL hash
   const hash = window.location.hash.slice(1);
   const rxData = hash ? decodePrescription(hash) : null;
+
+  langBtn.addEventListener('click', () => {
+    toggleLang();
+    if (rxData) {
+      renderPrescription(rxData);
+      updateDownloadLinks();
+    }
+  });
 
   if (!rxData) {
     loadingEl.style.display = 'none';
@@ -26,54 +34,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderPrescription(rxData);
+  updateDownloadLinks();
   loadingEl.style.display = 'none';
   contentEl.style.display = 'block';
   updateUI();
 
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  function updateDownloadLinks() {
+    const baseName = rxData.patientName.replace(/\s+/g, '-').toLowerCase();
+    const calBtn = document.getElementById('download-btn');
+    const remBtn = document.getElementById('download-reminder-btn');
 
-  function triggerDownload(content, fileName, successKey) {
+    const calIcs = generateICS(rxData.patientName, rxData.medications);
+    const remIcs = generateICSReminders(rxData.patientName, rxData.medications);
+
+    calBtn.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(calIcs);
+    remBtn.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(remIcs);
+
     if (isIOS) {
-      // iOS Safari muestra "Safari cannot download this file" con blob: URLs
-      // incluso cuando reconoce el MIME type text/calendar. La solucion es
-      // navegar a un data: URI: Safari lo procesa inline (sin descarga) y
-      // dispara directamente el flujo nativo de Calendario/Recordatorios.
-      const dataUri = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(content);
-      window.location.href = dataUri;
-      return;
+      calBtn.removeAttribute('download');
+      remBtn.removeAttribute('download');
+    } else {
+      calBtn.download = `medicamentos-${baseName}.ics`;
+      remBtn.download = `recordatorios-${baseName}.ics`;
     }
+  }
 
-    const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
+  function showSuccess(key) {
     const successEl = document.getElementById('rx-success');
-    successEl.textContent = t(successKey);
+    successEl.textContent = t(key);
     successEl.classList.add('visible');
   }
 
   document.getElementById('download-btn').addEventListener('click', () => {
-    const baseName = rxData.patientName.replace(/\s+/g, '-').toLowerCase();
-    triggerDownload(
-      generateICS(rxData.patientName, rxData.medications),
-      `medicamentos-${baseName}.ics`,
-      isIOS ? 'rxSuccessMsgIOS' : 'rxSuccessMsg'
-    );
+    showSuccess(isIOS ? 'rxSuccessMsgIOS' : 'rxSuccessMsg');
   });
 
   document.getElementById('download-reminder-btn').addEventListener('click', () => {
-    const baseName = rxData.patientName.replace(/\s+/g, '-').toLowerCase();
-    triggerDownload(
-      generateICSReminders(rxData.patientName, rxData.medications),
-      `recordatorios-${baseName}.ics`,
-      isIOS ? 'rxSuccessReminderMsgIOS' : 'rxSuccessReminderMsg'
-    );
+    showSuccess(isIOS ? 'rxSuccessReminderMsgIOS' : 'rxSuccessReminderMsg');
   });
 
   function renderPrescription(rx) {
