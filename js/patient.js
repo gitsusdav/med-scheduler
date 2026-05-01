@@ -33,24 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   function triggerDownload(content, fileName, successKey) {
+    if (isIOS) {
+      // iOS Safari muestra "Safari cannot download this file" con blob: URLs
+      // incluso cuando reconoce el MIME type text/calendar. La solucion es
+      // navegar a un data: URI: Safari lo procesa inline (sin descarga) y
+      // dispara directamente el flujo nativo de Calendario/Recordatorios.
+      const dataUri = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(content);
+      window.location.href = dataUri;
+      return;
+    }
+
     const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-
-    if (isIOS) {
-      // iOS Safari no soporta el atributo download en blob: URLs.
-      // Abrir en nueva pestaña permite que Safari reconozca el MIME type
-      // text/calendar y ofrezca abrirlo en Calendario o Recordatorios.
-      window.open(url, '_blank');
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-    } else {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 
     const successEl = document.getElementById('rx-success');
     successEl.textContent = t(successKey);
