@@ -57,8 +57,8 @@ const translations = {
     rxHint: 'Cada recordatorio incluye una alarma 5 minutos antes de cada dosis.',
     rxSuccessMsg: 'Archivo descargado. Abrelo para agregar los eventos a tu calendario.',
     rxSuccessReminderMsg: 'Archivo descargado. Abrelo en tu iPhone, iPad o Mac para agregar los recordatorios.',
-    rxSuccessMsgIOS: 'En la vista previa, toca "Agregar todo a calendario" para confirmar.',
-    rxSuccessReminderMsgIOS: 'En la vista previa, toca "Agregar todo a recordatorios" para confirmar.',
+    rxSuccessMsgIOS: 'Toca "Guardar en Archivos", luego abre el archivo desde Archivos para agregarlo al Calendario.',
+    rxSuccessReminderMsgIOS: 'Toca "Guardar en Archivos", luego abre el archivo desde Archivos para agregarlo a Recordatorios.',
     rxError: 'No se pudo cargar la receta. El link puede estar incompleto.',
 
     // Footer
@@ -123,8 +123,8 @@ const translations = {
     rxHint: 'Each reminder includes an alarm 5 minutes before each dose.',
     rxSuccessMsg: 'File downloaded. Open it to add the events to your calendar.',
     rxSuccessReminderMsg: 'File downloaded. Open it on your iPhone, iPad or Mac to add the reminders.',
-    rxSuccessMsgIOS: 'In the preview, tap "Add All to Calendar" to confirm.',
-    rxSuccessReminderMsgIOS: 'In the preview, tap "Add All to Reminders" to confirm.',
+    rxSuccessMsgIOS: 'Tap "Save to Files", then open the file from Files to add it to your Calendar.',
+    rxSuccessReminderMsgIOS: 'Tap "Save to Files", then open the file from Files to add it to your Reminders.',
     rxError: 'Could not load the prescription. The link may be incomplete.',
 
     // Footer

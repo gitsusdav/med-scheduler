@@ -149,7 +149,9 @@ function generateICSReminders(patientName, medications) {
   }
 
   lines.push('END:VCALENDAR');
-  return lines.join('\r\n');
+  // RFC 5545 requires CRLF after every line, including the last one.
+  // iOS Safari can silently reject .ics content without trailing CRLF.
+  return lines.join('\r\n') + '\r\n';
 }
 
 function generateICS(patientName, medications) {
@@ -218,6 +220,6 @@ function generateICS(patientName, medications) {
   }
 
   lines.push('END:VCALENDAR');
-  return lines.join('\r\n');
+  return lines.join('\r\n') + '\r\n';
 }
 

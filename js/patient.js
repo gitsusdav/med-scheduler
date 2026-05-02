@@ -6,9 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeBtn = document.getElementById('theme-toggle');
 
   // iOS detection (also catches iPads in desktop mode where UA reports as Mac).
-  // Critical: on iOS Safari we must use a real anchor with data: URI and let
-  // the user tap it directly. Programmatic .click() and the `download` attribute
-  // both trigger "Safari cannot download this file".
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
@@ -39,24 +36,32 @@ document.addEventListener('DOMContentLoaded', () => {
   contentEl.style.display = 'block';
   updateUI();
 
+  function buildBaseName() {
+    return rxData.patientName.replace(/\s+/g, '-').toLowerCase();
+  }
+
   function updateDownloadLinks() {
-    const baseName = rxData.patientName.replace(/\s+/g, '-').toLowerCase();
     const calBtn = document.getElementById('download-btn');
     const remBtn = document.getElementById('download-reminder-btn');
 
+    if (isIOS) {
+      // On iOS the click handler will use Web Share API (or data: URI fallback);
+      // strip download attribute so Safari doesn't try its broken download path.
+      calBtn.removeAttribute('href');
+      remBtn.removeAttribute('href');
+      calBtn.removeAttribute('download');
+      remBtn.removeAttribute('download');
+      return;
+    }
+
+    const baseName = buildBaseName();
     const calIcs = generateICS(rxData.patientName, rxData.medications);
     const remIcs = generateICSReminders(rxData.patientName, rxData.medications);
 
     calBtn.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(calIcs);
     remBtn.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(remIcs);
-
-    if (isIOS) {
-      calBtn.removeAttribute('download');
-      remBtn.removeAttribute('download');
-    } else {
-      calBtn.download = `medicamentos-${baseName}.ics`;
-      remBtn.download = `recordatorios-${baseName}.ics`;
-    }
+    calBtn.download = `medicamentos-${baseName}.ics`;
+    remBtn.download = `recordatorios-${baseName}.ics`;
   }
 
   function showSuccess(key) {
@@ -65,13 +70,48 @@ document.addEventListener('DOMContentLoaded', () => {
     successEl.classList.add('visible');
   }
 
-  document.getElementById('download-btn').addEventListener('click', () => {
-    showSuccess(isIOS ? 'rxSuccessMsgIOS' : 'rxSuccessMsg');
-  });
+  async function shareIosIcs(content, fileName, successKey) {
+    const file = new File([content], fileName, { type: 'text/calendar' });
 
-  document.getElementById('download-reminder-btn').addEventListener('click', () => {
-    showSuccess(isIOS ? 'rxSuccessReminderMsgIOS' : 'rxSuccessReminderMsg');
-  });
+    // Web Share API: opens native iOS share sheet. User can pick "Save to Files",
+    // "Mail", or any third-party app. Saving to Files lets them tap the file
+    // afterwards to import into Calendar/Reminders. This is the most reliable
+    // path on current iOS Safari since data: URI navigation is restricted.
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file] });
+        showSuccess(successKey);
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        // Fall through to data URI fallback if share fails for other reasons.
+      }
+    }
+
+    // Fallback for older iOS without Web Share API for files.
+    window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(content);
+  }
+
+  if (isIOS) {
+    document.getElementById('download-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      const content = generateICS(rxData.patientName, rxData.medications);
+      shareIosIcs(content, `medicamentos-${buildBaseName()}.ics`, 'rxSuccessMsgIOS');
+    });
+
+    document.getElementById('download-reminder-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      const content = generateICSReminders(rxData.patientName, rxData.medications);
+      shareIosIcs(content, `recordatorios-${buildBaseName()}.ics`, 'rxSuccessReminderMsgIOS');
+    });
+  } else {
+    document.getElementById('download-btn').addEventListener('click', () => {
+      showSuccess('rxSuccessMsg');
+    });
+    document.getElementById('download-reminder-btn').addEventListener('click', () => {
+      showSuccess('rxSuccessReminderMsg');
+    });
+  }
 
   function renderPrescription(rx) {
     document.getElementById('patient-name').textContent = rx.patientName;
